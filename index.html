@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Dashboard — SHIVRIMA</title>
+<style>
+  :root{
+    --bg:#ffffff; --ink:#171510; --ink-dim:#6b6355; --line:#e7e2d5;
+    --accent:#b8783f; --card:#faf8f2; --ok:#5a8a5a; --warn:#b85a3f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#15130f; --ink:#f2efe9; --ink-dim:#a39d92; --line:#2c2a24; --card:#1c1a15; }
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Helvetica Neue',Arial,sans-serif;}
+  header{
+    border-bottom:1px solid var(--line); padding:1.2rem 1.5rem;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.6rem;
+  }
+  header h1{font-size:1.15rem; margin:0;}
+  .role-pill{
+    font-size:.78rem; color:var(--accent); border:1px solid var(--accent);
+    border-radius:999px; padding:.25rem .7rem;
+  }
+  main{max-width:960px; margin:0 auto; padding:2rem 1.5rem 4rem;}
+  nav.tabs{display:flex; gap:1.4rem; border-bottom:1px solid var(--line); margin-bottom:1.6rem; overflow-x:auto;}
+  nav.tabs button{
+    background:none; border:none; font:inherit; color:var(--ink-dim); font-size:.92rem;
+    padding:.7rem .1rem; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap;
+  }
+  nav.tabs button.active{color:var(--ink); border-color:var(--accent);}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .empty{
+    background:var(--card); border:1px dashed var(--line); border-radius:12px;
+    padding:2.4rem 1.5rem; text-align:center; color:var(--ink-dim);
+  }
+  .empty strong{display:block; color:var(--ink); font-size:1rem; margin-bottom:.3rem;}
+  .empty button{
+    margin-top:1rem; background:var(--accent); color:#fff; border:none;
+    padding:.6rem 1.2rem; border-radius:8px; font:inherit; font-size:.88rem; cursor:pointer;
+  }
+  .loading{display:flex; align-items:center; gap:.6rem; color:var(--ink-dim); font-size:.9rem; padding:1rem 0;}
+  .spinner{
+    width:16px; height:16px; border:2px solid var(--line); border-top-color:var(--accent);
+    border-radius:50%; animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .status-note{font-size:.8rem; color:var(--ink-dim); margin-top:2.5rem; border-top:1px solid var(--line); padding-top:1rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Studio Dashboard</h1>
+  <span class="role-pill">Studio Owner / Team</span>
+</header>
+
+<main>
+  <nav class="tabs">
+    <button class="active" data-tab="projects">Projects</button>
+    <button data-tab="team">Team</button>
+    <button data-tab="media">Media</button>
+    <button data-tab="finance">Finance</button>
+    <button data-tab="operations">Operations</button>
+  </nav>
+
+  <div class="panel active" id="projects">
+    <div class="loading"><span class="spinner"></span> Loading projects…</div>
+    <div class="empty">
+      <strong>No active projects yet</strong>
+      No studio projects are assigned yet. Projects booked under your studio will appear here with their status and timeline.
+      <div><button>Create project</button></div>
+    </div>
+  </div>
+
+  <div class="panel" id="team">
+    <div class="empty">
+      <strong>No team members added</strong>
+      Add photographers, editors and coordinators to your studio team to assign them to projects.
+      <div><button>Add team member</button></div>
+    </div>
+  </div>
+
+  <div class="panel" id="media">
+    <div class="empty">
+      <strong>No media uploaded</strong>
+      Delivered and in-progress media from your studio's projects will be organized here.
+    </div>
+  </div>
+
+  <div class="panel" id="finance">
+    <div class="empty">
+      <strong>No financial activity yet</strong>
+      Earnings, payouts and pending invoices for your studio will show up here once projects start completing.
+    </div>
+  </div>
+
+  <div class="panel" id="operations">
+    <div class="empty">
+      <strong>No operational tasks</strong>
+      Scheduling conflicts, equipment tracking and studio-wide notices will appear here.
+    </div>
+  </div>
+
+  <p class="status-note">Route: /studio · Access: Studio Owner / Team (server-side enforced) · Status: UI shell, backend not yet connected</p>
+</main>
+
+<script>
+  document.querySelectorAll('nav.tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
